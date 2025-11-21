@@ -2,6 +2,8 @@ package com.EjBackend.backend.service;
 
 import com.EjBackend.backend.dto.MotoRequestDTO;
 import com.EjBackend.backend.dto.MotoResponseDTO;
+import com.EjBackend.backend.exception.ResourceNotFoundException;
+import com.EjBackend.backend.exception.ValidationException;
 import com.EjBackend.backend.model.Moto;
 import com.EjBackend.backend.repository.MotoRepository;
 import org.springframework.stereotype.Service;
@@ -59,15 +61,15 @@ public class MotoService {
 
     private Moto findByIdOrThrow(Long id) {
         return motoRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Moto con id " + id + " no encontrada"));
+                .orElseThrow(() -> new ResourceNotFoundException("Moto", id));
     }
 
     private void validarReglasDeNegocio(MotoRequestDTO requestDTO) {
         if (requestDTO.getPrecio() != null && requestDTO.getPrecio() <= 0) {
-            throw new IllegalArgumentException("El precio debe ser mayor a cero");
+            throw new ValidationException("El precio debe ser mayor a cero");
         }
         if (requestDTO.getCilindraje() != null && requestDTO.getCilindraje() < 50) {
-            throw new IllegalArgumentException("El cilindraje debe ser igual o mayor a 50cc");
+            throw new ValidationException("El cilindraje debe ser igual o mayor a 50cc");
         }
     }
 
