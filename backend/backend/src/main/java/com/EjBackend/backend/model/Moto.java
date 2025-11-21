@@ -1,9 +1,5 @@
 package com.EjBackend.backend.model;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.util.Objects;
 
@@ -23,6 +19,16 @@ public class Moto {
     private String aceleracion;
     private String consumo;
     private String combustible;
+    
+    private Integer stock;
+    private Double precioBase;
+    
+    @Enumerated(EnumType.STRING)
+    private EstadoMoto estado;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cliente_id")
+    private Cliente cliente;
 
     public Long getId() {
         return id;
@@ -110,6 +116,38 @@ public class Moto {
 
     public void setCombustible(String combustible) {
         this.combustible = combustible;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public Integer getStock() {
+        return stock;
+    }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
+    }
+
+    public Double getPrecioBase() {
+        return precioBase;
+    }
+
+    public void setPrecioBase(Double precioBase) {
+        this.precioBase = precioBase;
+    }
+
+    public EstadoMoto getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EstadoMoto estado) {
+        this.estado = estado;
     }
 
     @Override
