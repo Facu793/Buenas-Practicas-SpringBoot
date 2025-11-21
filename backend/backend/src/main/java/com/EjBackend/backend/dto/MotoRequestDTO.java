@@ -52,6 +52,15 @@ public class MotoRequestDTO {
     @Size(max = 20, message = "El combustible no puede exceder 20 caracteres")
     private String combustible;
 
+    @NotNull(message = "El stock es obligatorio")
+    @Min(value = 0, message = "El stock no puede ser negativo")
+    private Integer stock;
+
+    @NotNull(message = "El precio base es obligatorio")
+    @DecimalMin(value = "0.0", inclusive = false, message = "El precio base debe ser mayor a 0")
+    @Digits(integer = 10, fraction = 2, message = "El precio base debe tener máximo 10 dígitos enteros y 2 decimales")
+    private Double precioBase;
+
     public MotoRequestDTO() {
     }
 
@@ -148,6 +157,22 @@ public class MotoRequestDTO {
 
     public void setCombustible(String combustible) {
         this.combustible = combustible;
+    }
+
+    public Integer getStock() {
+        return stock;
+    }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
+    }
+
+    public Double getPrecioBase() {
+        return precioBase;
+    }
+
+    public void setPrecioBase(Double precioBase) {
+        this.precioBase = precioBase;
     }
 }
 

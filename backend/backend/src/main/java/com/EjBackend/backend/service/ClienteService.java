@@ -58,7 +58,19 @@ public class ClienteService {
     @Transactional
     public void eliminar(Long id) {
         Cliente cliente = findByIdOrThrow(id);
+        if (!cliente.getMotos().isEmpty()) {
+            throw new ValidationException("No se puede eliminar un cliente que tiene motos asociadas");
+        }
         clienteRepository.delete(cliente);
+    }
+
+    @Transactional(readOnly = true)
+    public Double calcularTotalInversion(Long clienteId) {
+        Cliente cliente = findByIdOrThrow(clienteId);
+        return cliente.getMotos().stream()
+                .filter(m -> m.getPrecio() != null)
+                .mapToDouble(Moto::getPrecio)
+                .sum();
     }
 
     private Cliente findByIdOrThrow(Long id) {
@@ -75,6 +87,13 @@ public class ClienteService {
                     .ifPresent(c -> {
                         throw new ValidationException("El email ya está registrado");
                     });
+        }
+    }
+
+    public void validarLimiteMotos(Cliente cliente) {
+        final int LIMITE_MOTOS = 3;
+        if (cliente.getMotos().size() >= LIMITE_MOTOS) {
+            throw new ValidationException("Un cliente no puede tener más de " + LIMITE_MOTOS + " motos");
         }
     }
 
@@ -103,18 +122,30 @@ public class ClienteService {
     }
 
     private MotoResponseDTO motoToResponseDTO(Moto moto) {
+        // Calcular precio total (precio base + impuestos + comisión)
+        Double precioTotal = null;
+        if (moto.getPrecioBase() != null && moto.getPrecioBase() > 0) {
+            double impuesto = moto.getPrecioBase() * 0.21;
+            double comision = moto.getPrecioBase() * 0.05;
+            precioTotal = moto.getPrecioBase() + impuesto + comision;
+        }
+        
         return new MotoResponseDTO(
                 moto.getId(),
                 moto.getMarca(),
                 moto.getModelo(),
                 moto.getColor(),
                 moto.getPrecio(),
+                moto.getPrecioBase(),
+                precioTotal,
                 moto.getCilindraje(),
                 moto.getPotencia(),
                 moto.getVelocidad(),
                 moto.getAceleracion(),
                 moto.getConsumo(),
-                moto.getCombustible()
+                moto.getCombustible(),
+                moto.getStock(),
+                moto.getEstado()
         );
     }
 }

@@ -1,5 +1,6 @@
 package com.EjBackend.backend.dto;
 
+import com.EjBackend.backend.model.EstadoMoto;
 
 public class MotoResponseDTO {
 
@@ -8,30 +9,39 @@ public class MotoResponseDTO {
     private String modelo;
     private String color;
     private Double precio;
+    private Double precioBase;
+    private Double precioTotal;
     private Long cilindraje;
     private String potencia;
     private String velocidad;
     private String aceleracion;
     private String consumo;
     private String combustible;
+    private Integer stock;
+    private EstadoMoto estado;
 
     public MotoResponseDTO() {
     }
 
     public MotoResponseDTO(Long id, String marca, String modelo, String color, Double precio,
-                           Long cilindraje, String potencia, String velocidad,
-                           String aceleracion, String consumo, String combustible) {
+                           Double precioBase, Double precioTotal, Long cilindraje, String potencia,
+                           String velocidad, String aceleracion, String consumo, String combustible,
+                           Integer stock, EstadoMoto estado) {
         this.id = id;
         this.marca = marca;
         this.modelo = modelo;
         this.color = color;
         this.precio = precio;
+        this.precioBase = precioBase;
+        this.precioTotal = precioTotal;
         this.cilindraje = cilindraje;
         this.potencia = potencia;
         this.velocidad = velocidad;
         this.aceleracion = aceleracion;
         this.consumo = consumo;
         this.combustible = combustible;
+        this.stock = stock;
+        this.estado = estado;
     }
 
     public Long getId() {
@@ -120,6 +130,38 @@ public class MotoResponseDTO {
 
     public void setCombustible(String combustible) {
         this.combustible = combustible;
+    }
+
+    public Double getPrecioBase() {
+        return precioBase;
+    }
+
+    public void setPrecioBase(Double precioBase) {
+        this.precioBase = precioBase;
+    }
+
+    public Double getPrecioTotal() {
+        return precioTotal;
+    }
+
+    public void setPrecioTotal(Double precioTotal) {
+        this.precioTotal = precioTotal;
+    }
+
+    public Integer getStock() {
+        return stock;
+    }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
+    }
+
+    public EstadoMoto getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EstadoMoto estado) {
+        this.estado = estado;
     }
 }
 

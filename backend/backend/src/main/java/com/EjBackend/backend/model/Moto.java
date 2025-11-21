@@ -19,6 +19,12 @@ public class Moto {
     private String aceleracion;
     private String consumo;
     private String combustible;
+    
+    private Integer stock;
+    private Double precioBase;
+    
+    @Enumerated(EnumType.STRING)
+    private EstadoMoto estado;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id")
@@ -118,6 +124,30 @@ public class Moto {
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
+    }
+
+    public Integer getStock() {
+        return stock;
+    }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
+    }
+
+    public Double getPrecioBase() {
+        return precioBase;
+    }
+
+    public void setPrecioBase(Double precioBase) {
+        this.precioBase = precioBase;
+    }
+
+    public EstadoMoto getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EstadoMoto estado) {
+        this.estado = estado;
     }
 
     @Override
